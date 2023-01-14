@@ -3,6 +3,7 @@ package ru.mycompany.service;
 import ru.mycompany.entity.Valute;
 import ru.mycompany.repository.ValuteRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,6 +12,11 @@ public class ValuteService {
 
     private ValuteCacheService valuteCacheService;
     private ValuteRepository valuteRepository;
+
+    public ValuteService(ValuteCacheService valuteCacheService, ValuteRepository valuteRepository) {
+        this.valuteCacheService = valuteCacheService;
+        this.valuteRepository = valuteRepository;
+    }
 
     public Valute getByCharCode(String charCodeFrom) {
         if (!valuteCacheService.isAlive()) {
@@ -30,6 +36,17 @@ public class ValuteService {
         List<Valute> valutes = valuteRepository.getValutes();
         Map<String, Valute> valuteMap = valutes.stream()
                 .collect(Collectors.toMap(Valute::getCharCode, valute -> valute));
+        valuteMap.put("RUB", getStubValute());
         valuteCacheService.set(valuteMap);
+    }
+
+    private Valute getStubValute() {
+        return new Valute(
+                Integer.MIN_VALUE,
+                "RUB",
+                1,
+                "Российский рубль",
+                BigDecimal.ONE
+        );
     }
 }

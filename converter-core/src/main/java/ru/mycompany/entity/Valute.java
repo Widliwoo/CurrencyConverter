@@ -25,6 +25,14 @@ public class Valute {
     public Valute() {
     }
 
+    public Valute(Integer numCode, String charCode, Integer nominal, String name, BigDecimal value) {
+        this.numCode = numCode;
+        this.charCode = charCode;
+        this.nominal = nominal;
+        this.name = name;
+        this.value = value;
+    }
+
     public Integer getNumCode() {
         return numCode;
     }

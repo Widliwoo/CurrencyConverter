@@ -3,14 +3,13 @@ package ru.mycompany.service;
 import ru.mycompany.entity.Valute;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class ValuteCacheService {
     private Map<String, Valute> cache;
     private LocalDateTime expireAt;
-    private Integer liveSeconds;
+    private Integer liveSeconds = 10;
 
     public Valute get(String charCode) {
         return cache.get(charCode);
